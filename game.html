@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Выбор игры — DinoLab</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* ============ Страница выбора игры ============ */
+        .game-select {
+            padding: 60px 0 80px;
+        }
+
+        .game-select-head {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .game-select-title {
+            font-family: 'Press Start 2P', monospace;
+            font-size: clamp(20px, 3.5vw, 32px);
+            margin-bottom: 16px;
+        }
+
+        .game-select-subtitle {
+            color: var(--text-muted);
+            font-size: 22px;
+            max-width: 640px;
+            margin: 0 auto;
+        }
+
+        /* ============ Сетка карточек ============ */
+        .game-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 32px;
+            margin-bottom: 60px;
+        }
+
+        .game-card {
+            background: var(--surface);
+            border: 2px solid var(--border);
+            border-radius: 14px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s;
+        }
+
+        .game-card:hover {
+            transform: translateY(-6px);
+            border-color: var(--accent);
+            box-shadow: 0 12px 40px rgba(124, 240, 61, 0.15);
+        }
+
+        /* ============ Превью ============ */
+        .game-preview {
+            height: 200px;
+            position: relative;
+            overflow: hidden;
+            border-bottom: 2px solid var(--border);
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            padding-bottom: 20px;
+        }
+
+        /* --- Превью 1: CSS-версия --- */
+        .preview-css {
+            background:
+                radial-gradient(circle at 50% 100%, rgba(124, 240, 61, 0.12), transparent 70%),
+                linear-gradient(180deg, var(--bg) 0%, var(--bg-alt) 100%);
+        }
+
+        .preview-css .preview-ground {
+            position: absolute;
+            bottom: 20px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--border);
+        }
+
+                .preview-css .mini-dino {
+            position: absolute;
+            bottom: 20px;
+            left: 40px;
+            width: 32px;
+            height: 32px;
+            background-image: url("assets/img/dino.png");
+            background-size: 32px 32px;
+            background-repeat: no-repeat;
+            animation: miniDinoJump 3s infinite linear;
+            animation-delay: 0s;
+        }
+
+        @keyframes miniDinoJump {
+            0%, 50%   { bottom: 20px; }
+            90%       { bottom: 70px; }
+            100%       { bottom: 70px; }
+            80%, 100% { bottom: 20px; }
+        }
+
+        .preview-css .mini-cactus {
+            position: absolute;
+            bottom: 20px;
+            right: -20px;
+            width: 16px;
+            height: 32px;
+            background-image: url("assets/img/cactus.png");
+            background-size: 16px 32px;
+            background-repeat: no-repeat;
+            animation: miniCactusMove 3s infinite linear;
+            animation-delay: 0s;
+        }
+
+        @keyframes miniCactusMove {
+            0%   { right: -40px; }
+            100% { right: 100%; }
+        }
+
+        /* --- Превью 2: Canvas-версия (имитация) --- */
+        .preview-canvas {
+            background:
+                repeating-linear-gradient(
+                    0deg,
+                    rgba(124, 240, 61, 0.03) 0,
+                    rgba(124, 240, 61, 0.03) 1px,
+                    transparent 1px,
+                    transparent 4px
+                ),
+                repeating-linear-gradient(
+                    90deg,
+                    rgba(124, 240, 61, 0.03) 0,
+                    rgba(124, 240, 61, 0.03) 1px,
+                    transparent 1px,
+                    transparent 4px
+                ),
+                #0a0a14;
+        }
+
+        body.light .preview-canvas {
+            background:
+                repeating-linear-gradient(
+                    0deg,
+                    rgba(0, 0, 0, 0.04) 0,
+                    rgba(0, 0, 0, 0.04) 1px,
+                    transparent 1px,
+                    transparent 4px
+                ),
+                repeating-linear-gradient(
+                    90deg,
+                    rgba(0, 0, 0, 0.04) 0,
+                    rgba(0, 0, 0, 0.04) 1px,
+                    transparent 1px,
+                    transparent 4px
+                ),
+                #eaeaf0;
+        }
+
+        .preview-canvas .canvas-badge {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            font-family: 'Press Start 2P', monospace;
+            font-size: 8px;
+            color: var(--accent);
+            background: rgba(0, 0, 0, 0.4);
+            padding: 6px 10px;
+            border-radius: 4px;
+            letter-spacing: 1px;
+        }
+
+        .preview-canvas .preview-ground {
+            position: absolute;
+            bottom: 20px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: rgba(124, 240, 61, 0.3);
+        }
+
+        .preview-canvas .mini-dino {
+            position: absolute;
+            bottom: 20px;
+            left: 40px;
+            width: 32px;
+            height: 32px;
+            background-image: url("assets/img/dino.png");
+            background-size: 32px 32px;
+            background-repeat: no-repeat;
+            filter: brightness(1.2) drop-shadow(0 0 6px rgba(124, 240, 61, 0.6));
+            animation: canvasDinoJump 2s infinite linear;
+        }
+
+        @keyframes canvasDinoJump {
+            0%, 50%   { transform: translateY(0); }
+            90%       { transform: translateY(-40px); }
+            100%       { transform: translateY(-40px); }
+            80%, 100% { transform: translateY(0); }
+        }
+
+        .preview-canvas .mini-cactus {
+            position: absolute;
+            bottom: 20px;
+            right: -20px;
+            width: 16px;
+            height: 32px;
+            background-image: url("assets/img/cactus.png");
+            background-size: 16px 32px;
+            background-repeat: no-repeat;
+            filter: brightness(1.2) drop-shadow(0 0 6px rgba(124, 240, 61, 0.6));
+            animation: canvasCactusMove 2s infinite linear;
+        }
+
+        @keyframes canvasCactusMove {
+            0%   { right: -40px; }
+            100% { right: 100%; }
+        }
+
+        /* Облако в превью canvas */
+        .preview-canvas .mini-cloud {
+            position: absolute;
+            top: 30px;
+            left: -60px;
+            width: 50px;
+            height: 16px;
+            background: rgba(124, 240, 61, 0.15);
+            border-radius: 20px;
+            filter: blur(2px);
+            animation: canvasCloudMove 6s infinite linear;
+        }
+
+        @keyframes canvasCloudMove {
+            0%   { left: -60px; }
+            100% { left: 100%; }
+        }
+
+        /* ============ Информация о карточке ============ */
+        .game-card-body {
+            padding: 28px 28px 32px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            flex: 1;
+        }
+
+        .game-card-title {
+            font-family: 'Press Start 2P', monospace;
+            font-size: 16px;
+            line-height: 1.5;
+        }
+
+        .game-card-desc {
+            color: var(--text-muted);
+            flex: 1;
+        }
+
+        .game-card-tags {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .tag {
+            font-size: 16px;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 4px 12px;
+            color: var(--text-muted);
+        }
+
+        .game-card-actions {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 8px;
+        }
+
+        .game-card-actions .btn {
+            flex: 1;
+            min-width: 140px;
+        }
+
+        /* ============ Блок «в чём разница» ============ */
+        .diff-block {
+            background: var(--surface);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            padding: 32px 36px;
+            text-align: center;
+        }
+
+        .diff-block h3 {
+            font-family: 'Press Start 2P', monospace;
+            font-size: 16px;
+            margin-bottom: 16px;
+        }
+
+        .diff-block p {
+            color: var(--text-muted);
+            max-width: 700px;
+            margin: 0 auto 20px;
+        }
+
+        @media (max-width: 600px) {
+            .game-grid {
+                grid-template-columns: 1fr;
+                gap: 24px;
+            }
+
+            .game-select {
+                padding: 40px 0 60px;
+            }
+
+            .game-select-head {
+                margin-bottom: 40px;
+            }
+
+            .game-card-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="index.html" class="logo">
+                <span class="logo-dino">🦖</span>
+                <span class="logo-text">DinoLab</span>
+            </a>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="index.html">Главная</a></li>
+                    <li><a href="game.html">Игра</a></li>
+                    <li><a href="tutorial.html">Туториал</a></li>
+                    <li><a href="mechanics.html">Механики</a></li>
+                    <li><a href="compare.html">Сравнение</a></li>
+                    <li><a href="gallery.html">Галерея</a></li>
+                    <li><a href="about.html">О проекте</a></li>
+                </ul>
+            </nav>
+            <button class="theme-toggle" id="themeToggle" aria-label="Переключить тему">🌙</button>
+        </div>
+    </header>
+
+    <main>
+        <section class="game-select">
+            <div class="container">
+                <div class="game-select-head">
+                    <h1 class="game-select-title">Выбери версию</h1>
+                    <p class="game-select-subtitle">
+                        Два подхода к одной игре: CSS-анимации против canvas. Обе версии рабочие — играй в любую.
+                    </p>
+                </div>
+
+                <div class="game-grid">
+                    <!-- Карточка 1: самодельная -->
+                    <article class="game-card">
+                        <div class="game-preview preview-css">
+                            <div class="preview-ground"></div>
+                            <div class="mini-dino"></div>
+                            <div class="mini-cactus"></div>
+                        </div>
+                        <div class="game-card-body">
+                            <h2 class="game-card-title">Самодельная версия</h2>
+                            <p class="game-card-desc">
+                                Простая и понятная: HTML-элементы, CSS-анимации и минимум JavaScript. Идеально для первого знакомства с игровой логикой.
+                            </p>
+                            <div class="game-card-tags">
+                                <span class="tag">CSS-анимации</span>
+                                <span class="tag">requestAnimationFrame</span>
+                                <span class="tag">localStorage</span>
+                            </div>
+                            <div class="game-card-actions">
+                                <a href="game-custom.html" class="btn btn-primary">▶ Играть</a>
+                                <a href="tutorial.html" class="btn btn-secondary">Туториал</a>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Карточка 2: официальная -->
+                    <article class="game-card">
+                        <div class="game-preview preview-canvas">
+                            <div class="canvas-badge">CANVAS</div>
+                            <div class="preview-ground"></div>
+                            <div class="mini-dino"></div>
+                            <div class="mini-cactus"></div>
+                        </div>
+                        <div class="game-card-body">
+                            <h2 class="game-card-title">Официальная версия</h2>
+                            <p class="game-card-desc">
+                                Тот самый DinoGoogle из Chromium. Canvas, спрайты, покадровая анимация и точные AABB-коллизии — «промышленный» подход.
+                            </p>
+                            <div class="game-card-tags">
+                                <span class="tag">Canvas 2D</span>
+                                <span class="tag">Спрайты</span>
+                                <span class="tag">AABB-коллизии</span>
+                            </div>
+                            <div class="game-card-actions">
+                                <a href="game-official.html" class="btn btn-primary">▶ Играть</a>
+                                <a href="compare.html" class="btn btn-secondary">Сравнить</a>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+
+                <div class="diff-block">
+                    <h3>В чём разница?</h3>
+                    <p>
+                        Самодельная версия использует обычные HTML-элементы и CSS для отрисовки и движения. Официальная — рисует всё на <code>&lt;canvas&gt;</code> через JavaScript, что даёт точный контроль над пикселями и спрайтами.
+                    </p>
+                    <a href="compare.html" class="btn btn-secondary">Подробное сравнение →</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>© <span id="year"></span> DinoLab. Сделано на чистом HTML, CSS и JavaScript.</p>
+        </div>
+    </footer>
+
+    <script src="common.js"></script>
+</body>
+</html>

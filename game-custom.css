@@ -1,0 +1,245 @@
+/* ============ Страница игры ============ */
+.game-page {
+    padding: 40px 0 80px;
+}
+
+.page-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 24px;
+    margin-bottom: 32px;
+    flex-wrap: wrap;
+}
+
+.page-title {
+    font-family: 'Press Start 2P', monospace;
+    font-size: clamp(16px, 3vw, 26px);
+    margin-bottom: 12px;
+}
+
+.page-subtitle {
+    color: var(--text-muted);
+    font-size: 20px;
+}
+
+.page-nav {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+/* ============ Статистика ============ */
+.game-stats {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.stat {
+    background: var(--surface);
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 20px;
+    display: flex;
+    flex-direction: column;
+    min-width: 120px;
+}
+
+.stat-label {
+    font-size: 16px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.stat-value {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 20px;
+    color: var(--accent);
+}
+
+/* ============ Игровое поле ============ */
+.game-stage {
+    position: relative;
+    background: var(--surface);
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    overflow: hidden;
+    margin-bottom: 24px;
+}
+
+.game {
+    width: 100%;
+    max-width: 600px;
+    height: 200px;
+    margin: 0 auto;
+    border-bottom: 2px solid var(--border);
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+#dino {
+    width: 50px;
+    height: 50px;
+    background-image: url("assets/img/dino.png");
+    background-size: 50px 50px;
+    background-repeat: no-repeat;
+    position: absolute;
+    bottom: 0;
+    left: 50px;
+}
+
+#cactus {
+    width: 20px;
+    height: 40px;
+    background-image: url("assets/img/cactus.png");
+    background-size: 20px 40px;
+    background-repeat: no-repeat;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    transform: translateX(600px); /* стартует за правым краем */
+    will-change: transform;       /* оптимизация для анимации */
+}
+
+/* ============ Прыжок ============ */
+.jump {
+    animation: jump 0.6s linear;
+}
+
+@keyframes jump {
+    0%   { bottom: 0; }
+    25%  { bottom: 40px; }
+    50%  { bottom: 95px; }
+    75%  { bottom: 40px; }
+    100% { bottom: 0; }
+}
+
+/* ============ Оверлей ============ */
+.game-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(15, 15, 26, 0.85);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    transition: opacity 0.3s;
+    z-index: 10;
+}
+
+body.light .game-overlay {
+    background: rgba(244, 244, 248, 0.9);
+}
+
+.game-overlay.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.overlay-content {
+    text-align: center;
+    padding: 24px;
+    max-width: 400px;
+}
+
+.overlay-title {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 20px;
+    margin-bottom: 16px;
+    color: var(--text);
+}
+
+.overlay-text {
+    color: var(--text-muted);
+    margin-bottom: 24px;
+    font-size: 20px;
+}
+
+/* ============ Подсказка ============ */
+.game-hint {
+    text-align: center;
+    color: var(--text-muted);
+    margin-bottom: 40px;
+    font-size: 18px;
+}
+
+kbd {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 2px 8px;
+    font-family: 'VT323', monospace;
+    font-size: 18px;
+    color: var(--accent);
+}
+
+/* ============ Инфо-блок ============ */
+.game-info {
+    background: var(--surface);
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    padding: 24px 28px;
+}
+
+.game-info h3 {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 14px;
+    margin-bottom: 16px;
+}
+
+.game-info ul {
+    margin-bottom: 16px;
+}
+
+.game-info li {
+    color: var(--text-muted);
+    padding: 4px 0 4px 20px;
+    position: relative;
+}
+
+.game-info li::before {
+    content: "▸";
+    color: var(--accent);
+    position: absolute;
+    left: 0;
+}
+
+.game-info code {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1px 6px;
+    font-family: 'VT323', monospace;
+    font-size: 18px;
+    color: var(--accent-2);
+}
+
+/* ============ Адаптив ============ */
+@media (max-width: 600px) {
+    .page-head {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .game {
+        height: 160px;
+    }
+
+    #dino {
+        width: 40px;
+        height: 40px;
+        background-size: 40px 40px;
+        left: 30px;
+    }
+
+    #cactus {
+        width: 16px;
+        height: 32px;
+        background-size: 16px 32px;
+    }
+}

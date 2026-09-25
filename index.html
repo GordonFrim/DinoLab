@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DinoLab — как сделать DinoGoogle</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="index.html" class="logo">
+                <span class="logo-dino">🦖</span>
+                <span class="logo-text">DinoLab</span>
+            </a>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="index.html">Главная</a></li>
+                    <li><a href="game.html">Игра</a></li>
+                    <li><a href="tutorial.html">Туториал</a></li>
+                    <li><a href="mechanics.html">Механики</a></li>
+                    <li><a href="compare.html">Сравнение</a></li>
+                    <li><a href="gallery.html">Галерея</a></li>
+                    <li><a href="about.html">О проекте</a></li>
+                </ul>
+            </nav>
+            <button class="theme-toggle" id="themeToggle" aria-label="Переключить тему">🌙</button>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container">
+                <h1 class="hero-title">Как сделать игру<br><span class="accent">DinoGoogle</span></h1>
+                <p class="hero-subtitle">
+                    Две версии игры, пошаговый туториал, разбор механик и сравнение подходов — всё на чистом HTML, CSS и JavaScript.
+                </p>
+                <div class="hero-actions">
+                    <a href="game.html" class="btn btn-primary">▶ Играть</a>
+                    <a href="tutorial.html" class="btn btn-secondary">Читать туториал</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="features">
+            <div class="container">
+                <h2 class="section-title">Что внутри</h2>
+                <div class="cards">
+                    <article class="card">
+                        <div class="card-icon">🎮</div>
+                        <h3>Две версии игры</h3>
+                        <p>Самодельная на CSS-анимациях и официальная из Chromium на canvas. Играй в обе и сравнивай.</p>
+                        <a href="game.html" class="card-link">Играть →</a>
+                    </article>
+                    <article class="card">
+                        <div class="card-icon">📖</div>
+                        <h3>Туториал</h3>
+                        <p>Пошагово: от пустого div до работающей игры. С кодом и объяснениями каждого шага.</p>
+                        <a href="tutorial.html" class="card-link">Изучить →</a>
+                    </article>
+                    <article class="card">
+                        <div class="card-icon">⚙️</div>
+                        <h3>Механики</h3>
+                        <p>Игровой цикл, гравитация, коллизии — разбираем теорию с интерактивными демками.</p>
+                        <a href="mechanics.html" class="card-link">Разобраться →</a>
+                    </article>
+                    <article class="card">
+                        <div class="card-icon">⚖️</div>
+                        <h3>Сравнение</h3>
+                        <p>CSS-анимации против canvas. Плюсы, минусы, что где учиться и когда что выбирать.</p>
+                        <a href="compare.html" class="card-link">Сравнить →</a>
+                    </article>
+                    <article class="card">
+                        <div class="card-icon">🖼️</div>
+                        <h3>Галерея</h3>
+                        <p>Эволюция проекта: от первого квадратика до финального динозаврика.</p>
+                        <a href="gallery.html" class="card-link">Смотреть →</a>
+                    </article>
+                    <article class="card">
+                        <div class="card-icon">🦖</div>
+                        <h3>О проекте</h3>
+                        <p>Зачем этот сайт, какой стек, что было сложно и что получилось в итоге.</p>
+                        <a href="about.html" class="card-link">Узнать →</a>
+                    </article>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>© <span id="year"></span> DinoLab. Сделано на чистом HTML, CSS и JavaScript.</p>
+        </div>
+    </footer>
+
+    <script src="common.js"></script>
+</body>
+</html>

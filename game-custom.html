@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Самодельная версия — DinoLab</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="game-custom.css">
+</head>
+<body>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="index.html" class="logo">
+                <span class="logo-dino">🦖</span>
+                <span class="logo-text">DinoLab</span>
+            </a>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="index.html">Главная</a></li>
+                    <li><a href="game.html">Игра</a></li>
+                    <li><a href="tutorial.html">Туториал</a></li>
+                    <li><a href="mechanics.html">Механики</a></li>
+                    <li><a href="compare.html">Сравнение</a></li>
+                    <li><a href="gallery.html">Галерея</a></li>
+                    <li><a href="about.html">О проекте</a></li>
+                </ul>
+            </nav>
+            <button class="theme-toggle" id="themeToggle" aria-label="Переключить тему">🌙</button>
+        </div>
+    </header>
+
+    <main>
+        <section class="game-page">
+            <div class="container">
+                <div class="page-head">
+                    <div>
+                        <h1 class="page-title">Самодельная версия</h1>
+                        <p class="page-subtitle">CSS-анимации + минимум JavaScript. Та самая версия из туториала.</p>
+                    </div>
+                    <div class="page-nav">
+                        <a href="game.html" class="btn btn-secondary">← К выбору</a>
+                        <a href="game-official.html" class="btn btn-secondary">Официальная →</a>
+                    </div>
+                </div>
+
+                <div class="game-stats">
+                    <div class="stat">
+                        <span class="stat-label">Счёт</span>
+                        <span class="stat-value" id="score">0</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-label">Рекорд</span>
+                        <span class="stat-value" id="best">0</span>
+                    </div>
+                </div>
+
+                <div class="game-stage" id="gameStage">
+                    <div class="game" id="game">
+                        <div id="dino"></div>
+                        <div id="cactus"></div>
+                    </div>
+
+                    <div class="game-overlay" id="overlay">
+                        <div class="overlay-content">
+                            <h2 class="overlay-title" id="overlayTitle">Готов?</h2>
+                            <p class="overlay-text" id="overlayText">Нажми пробел или кнопку ниже, чтобы начать.</p>
+                            <button class="btn btn-primary" id="startBtn">▶ Старт</button>
+                        </div>
+                    </div>
+                </div>
+
+                <p class="game-hint">Управление: <kbd>Пробел</kbd> или <kbd>↑</kbd> — прыжок. Клик по полю тоже работает.</p>
+
+                <div class="game-info">
+                    <h3>Что тут интересного</h3>
+                    <ul>
+                        <li>Движение кактуса — CSS-анимация <code>@keyframes</code>.</li>
+                        <li>Прыжок — добавление класса <code>.jump</code> на 300 мс.</li>
+                        <li>Коллизия — сравнение позиций через <code>getComputedStyle</code> каждые 10 мс.</li>
+                        <li>Скорость кактуса растёт со временем — меняем <code>animation-duration</code>.</li>
+                    </ul>
+                    <p>Подробный разбор — в <a href="tutorial.html">туториале</a>, сравнение с canvas-версией — в <a href="compare.html">сравнении</a>.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>© <span id="year"></span> DinoLab. Сделано на чистом HTML, CSS и JavaScript.</p>
+        </div>
+    </footer>
+
+    <script src="common.js"></script>
+    <script src="game-custom.js"></script>
+</body>
+</html>

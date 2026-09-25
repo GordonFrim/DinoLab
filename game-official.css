@@ -1,0 +1,192 @@
+/* ============ Страница официальной игры ============ */
+.game-page {
+    padding: 40px 0 80px;
+}
+
+.page-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 24px;
+    margin-bottom: 32px;
+    flex-wrap: wrap;
+}
+
+.page-title {
+    font-family: 'Press Start 2P', monospace;
+    font-size: clamp(16px, 3vw, 26px);
+    margin-bottom: 12px;
+}
+
+.page-subtitle {
+    color: var(--text-muted);
+    font-size: 20px;
+}
+
+.page-nav {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+/* ============ Игровое поле ============ */
+.game-official-stage {
+    background: var(--surface);
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 24px;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Контейнер, в который игра вставит свой canvas */
+.interstitial-wrapper {
+    max-width: 600px;
+    margin: 0 auto;
+    position: relative;
+    min-height: 150px;
+}
+
+/* Заглушка (пока игра не подключена) */
+.game-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 150px;
+    text-align: center;
+    color: var(--text-muted);
+    border: 2px dashed var(--border);
+    border-radius: 8px;
+    padding: 20px;
+}
+
+.game-placeholder p {
+    margin: 4px 0;
+}
+
+.game-placeholder-hint {
+    font-size: 17px;
+    opacity: 0.6;
+}
+
+/* ============ Canvas официальной игры ============ */
+/* Классы, которые создаёт код Chromium */
+.runner-container {
+    position: relative;
+    margin: 0 auto;
+    height: 150px;
+    overflow: hidden;
+}
+
+.runner-canvas {
+    display: block;
+    height: 150px;
+    max-width: 600px;
+    opacity: 1;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+/* ============ Подсказка ============ */
+.game-hint {
+    text-align: center;
+    color: var(--text-muted);
+    margin-bottom: 40px;
+    font-size: 18px;
+}
+
+kbd {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 2px 8px;
+    font-family: 'VT323', monospace;
+    font-size: 18px;
+    color: var(--accent);
+}
+
+/* ============ Инфо-блок ============ */
+.game-info {
+    background: var(--surface);
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    padding: 28px 32px;
+}
+
+.game-info h3 {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 14px;
+    margin-bottom: 16px;
+}
+
+.game-info > p {
+    color: var(--text-muted);
+    margin-bottom: 20px;
+    line-height: 1.6;
+}
+
+/* ============ Сетка классов ============ */
+.classes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+}
+
+.class-card {
+    background: var(--bg);
+    border: 2px solid var(--border);
+    border-radius: 10px;
+    padding: 18px 20px;
+    transition: border-color 0.2s, transform 0.2s;
+}
+
+.class-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-3px);
+}
+
+.class-card code {
+    display: inline-block;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    background: var(--bg-alt);
+    padding: 4px 10px;
+    border-radius: 6px;
+    margin-bottom: 10px;
+    border: 1px solid var(--border);
+}
+
+.class-card p {
+    color: var(--text-muted);
+    font-size: 18px;
+    line-height: 1.5;
+}
+
+/* ============ Адаптив ============ */
+@media (max-width: 600px) {
+    .game-page {
+        padding: 30px 0 60px;
+    }
+
+    .page-head {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .game-official-stage {
+        padding: 12px;
+    }
+
+    .classes-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Скрываем спрайты и звуки игры — они нужны только для canvas */
+#offline-resources {
+    display: none;
+}

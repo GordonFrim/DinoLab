@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Галерея — DinoLab</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* ============ Страница галереи ============ */
+        .gallery-page {
+            padding: 60px 0 80px;
+        }
+
+        .gallery-head {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .gallery-title {
+            font-family: 'Press Start 2P', monospace;
+            font-size: clamp(18px, 3.5vw, 30px);
+            margin-bottom: 20px;
+        }
+
+        .gallery-subtitle {
+            color: var(--text-muted);
+            font-size: 22px;
+            max-width: 720px;
+            margin: 0 auto;
+        }
+
+        /* ============ Фильтр ============ */
+        .gallery-filter {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 48px;
+        }
+
+        .filter-btn {
+            font-family: 'Press Start 2P', monospace;
+            font-size: 10px;
+            background: transparent;
+            border: 2px solid var(--border);
+            color: var(--text-muted);
+            padding: 10px 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            letter-spacing: 1px;
+        }
+
+        .filter-btn:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .filter-btn.active {
+            background: var(--accent);
+            color: #0f0f1a;
+            border-color: var(--accent);
+        }
+
+        /* ============ Сетка галереи ============ */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 24px;
+        }
+
+        .gallery-item {
+            background: var(--surface);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s;
+            display: flex;
+            flex-direction: column;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: galleryFadeIn 0.4s ease forwards;
+        }
+
+        @keyframes galleryFadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-6px);
+            border-color: var(--accent);
+            box-shadow: 0 12px 40px rgba(124, 240, 61, 0.15);
+        }
+
+        .gallery-item.hidden {
+            display: none;
+        }
+
+        /* ============ Превью-сцена ============ */
+        .gallery-preview {
+            height: 180px;
+            background: var(--bg-alt);
+            border-bottom: 2px solid var(--border);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .gallery-caption {
+            padding: 16px 18px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            flex: 1;
+        }
+
+        .gallery-caption h3 {
+            font-family: 'Press Start 2P', monospace;
+            font-size: 11px;
+            line-height: 1.5;
+            color: var(--text);
+        }
+
+        .gallery-caption p {
+            color: var(--text-muted);
+            font-size: 17px;
+            line-height: 1.4;
+        }
+
+        .gallery-tag {
+            display: inline-block;
+            font-family: 'Press Start 2P', monospace;
+            font-size: 8px;
+            color: var(--accent);
+            background: var(--bg);
+            border: 1px solid var(--accent);
+            border-radius: 20px;
+            padding: 3px 10px;
+            letter-spacing: 1px;
+            margin-top: 4px;
+            align-self: flex-start;
+        }
+
+        .gallery-tag.blue {
+            color: var(--accent-2);
+            border-color: var(--accent-2);
+        }
+
+        .gallery-tag.danger {
+            color: var(--danger);
+            border-color: var(--danger);
+        }
+
+        /* ============ Сцена: спрайты ============ */
+        .scene-sprite {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            justify-content: center;
+            background:
+                radial-gradient(circle at 50% 50%, rgba(124, 240, 61, 0.08), transparent 70%),
+                repeating-linear-gradient(0deg, rgba(124, 240, 61, 0.03) 0, rgba(124, 240, 61, 0.03) 1px, transparent 1px, transparent 8px),
+                repeating-linear-gradient(90deg, rgba(124, 240, 61, 0.03) 0, rgba(124, 240, 61, 0.03) 1px, transparent 1px, transparent 8px);
+        }
+
+        .scene-sprite img {
+            image-rendering: pixelated;
+            filter: drop-shadow(0 0 8px rgba(124, 240, 61, 0.4));
+        }
+
+        .scene-sprite .sprite-dino {
+            width: 64px;
+            height: 64px;
+        }
+
+        .scene-sprite .sprite-cactus {
+            width: 32px;
+            height: 64px;
+        }
+
+        /* ============ Сцена: мини-игра ============ */
+        .scene-game {
+            background:
+                radial-gradient(circle at 50% 100%, rgba(124, 240, 61, 0.12), transparent 70%),
+                linear-gradient(180deg, var(--bg) 0%, var(--bg-alt) 100%);
+        }
+
+        .scene-game .scene-ground {
+            position: absolute;
+            bottom: 30px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--border);
+        }
+
+        .scene-game .scene-dino {
+            position: absolute;
+            bottom: 32px;
+            left: 30px;
+            width: 36px;
+            height: 36px;
+            background-image: url("assets/img/dino.png");
+            background-size: 36px 36px;
+            background-repeat: no-repeat;
+            image-rendering: pixelated;
+        }
+
+        .scene-game .scene-cactus {
+            position: absolute;
+            bottom: 32px;
+            right: 30px;
+            width: 18px;
+            height: 36px;
+            background-image: url("assets/img/cactus.png");
+            background-size: 18px 36px;
+            background-repeat: no-repeat;
+            image-rendering: pixelated;
+        }
+
+        .scene-game.animate .scene-dino {
+            animation: galleryDinoJump 3s infinite linear;
+        }
+
+        @keyframes galleryDinoJump {
+            0%, 70%   { bottom: 32px; }
+            78%       { bottom: 80px; }
+            86%       { bottom: 80px; }
+            94%, 100% { bottom: 32px; }
+        }
+
+        .scene-game.animate .scene-cactus {
+            animation: galleryCactusMove 3s infinite linear;
+        }
+
+        @keyframes galleryCactusMove {
+            0%   { right: -30px; }
+            100% { right: 100%; }
+        }
+
+        /* ============ Сцена: пустое поле ============ */
+        .scene-empty {
+            background: linear-gradient(180deg, var(--bg) 0%, var(--bg-alt) 100%);
+        }
+
+        .scene-empty .scene-ground {
+            position: absolute;
+            bottom: 40px;
+            left: 20px;
+            right: 20px;
+            height: 2px;
+            background: var(--border);
+        }
+
+        .scene-empty .scene-label {
+            font-family: 'Press Start 2P', monospace;
+            font-size: 10px;
+            color: var(--text-muted);
+            letter-spacing: 1px;
+            text-align: center;
+            opacity: 0.5;
+        }
+
+        /* ============ Сцена: версии ============ */
+        .scene-css {
+            background:
+                radial-gradient(circle at 50% 100%, rgba(124, 240, 61, 0.12), transparent 70%),
+                linear-gradient(180deg, var(--bg) 0%, var(--bg-alt) 100%);
+        }
+
+        .scene-css .scene-badge {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            font-family: 'Press Start 2P', monospace;
+            font-size: 8px;
+            color: var(--accent);
+            background: rgba(0, 0, 0, 0.4);
+            padding: 5px 9px;
+            border-radius: 4px;
+            letter-spacing: 1px;
+        }
+
+        .scene-canvas {
+            background:
+                repeating-linear-gradient(0deg, rgba(124, 240, 61, 0.03) 0, rgba(124, 240, 61, 0.03) 1px, transparent 1px, transparent 4px),
+                repeating-linear-gradient(90deg, rgba(124, 240, 61, 0.03) 0, rgba(124, 240, 61, 0.03) 1px, transparent 1px, transparent 4px),
+                #0a0a14;
+        }
+
+        body.light .scene-canvas {
+            background:
+                repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.04) 0, rgba(0, 0, 0, 0.04) 1px, transparent 1px, transparent 4px),
+                repeating-linear-gradient(90deg, rgba(0, 0, 0, 0.04) 0, rgba(0, 0, 0, 0.04) 1px, transparent 1px, transparent 4px),
+                #eaeaf0;
+        }
+
+        .scene-canvas .scene-badge {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            font-family: 'Press Start 2P', monospace;
+            font-size: 8px;
+            color: var(--accent-2);
+            background: rgba(0, 0, 0, 0.4);
+            padding: 5px 9px;
+            border-radius: 4px;
+            letter-spacing: 1px;
+        }
+
+        .scene-css .scene-ground,
+        .scene-canvas .scene-ground {
+            position: absolute;
+            bottom: 30px;
+            left: 0;
+            right: 0;
+            height: 2px;
+        }
+
+        .scene-css .scene-ground {
+            background: var(--border);
+        }
+
+        .scene-canvas .scene-ground {
+            background: rgba(124, 240, 61, 0.3);
+        }
+
+        .scene-css .scene-dino,
+        .scene-canvas .scene-dino {
+            position: absolute;
+            bottom: 32px;
+            left: 30px;
+            width: 36px;
+            height: 36px;
+            background-image: url("assets/img/dino.png");
+            background-size: 36px 36px;
+            background-repeat: no-repeat;
+            image-rendering: pixelated;
+        }
+
+        .scene-canvas .scene-dino {
+            filter: brightness(1.2) drop-shadow(0 0 6px rgba(124, 240, 61, 0.6));
+        }
+
+        /* ============ Сцена: механики ============ */
+        .scene-mech {
+            background: var(--bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .scene-mech-icon {
+            font-size: 56px;
+            line-height: 1;
+            filter: drop-shadow(0 0 12px rgba(124, 240, 61, 0.4));
+        }
+
+        /* ============ Модалка ============ */
+        .gallery-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.85);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 300;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.25s;
+            padding: 20px;
+        }
+
+        .gallery-modal.open {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .gallery-modal-content {
+            background: var(--surface);
+            border: 2px solid var(--accent);
+            border-radius: 14px;
+            max-width: 600px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: 0 0 60px rgba(124, 240, 61, 0.3);
+        }
+
+        .gallery-modal-close {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: transparent;
+            border: 2px solid var(--border);
+            color: var(--text);
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 20px;
+            z-index: 2;
+            transition: all 0.2s;
+        }
+
+        .gallery-modal-close:hover {
+            border-color: var(--danger);
+            color: var(--danger);
+        }
+
+        .gallery-modal-preview {
+            height: 260px;
+            background: var(--bg-alt);
+            border-bottom: 2px solid var(--border);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .gallery-modal-body {
+            padding: 28px 32px 32px;
+        }
+
+        .gallery-modal-body h2 {
+            font-family: 'Press Start 2P', monospace;
+            font-size: 16px;
+            line-height: 1.5;
+            margin-bottom: 16px;
+        }
+
+        .gallery-modal-body p {
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+
+        /* ============ Адаптив ============ */
+        @media (max-width: 600px) {
+            .gallery-page {
+                padding: 40px 0 60px;
+            }
+
+            .gallery-head {
+                margin-bottom: 30px;
+            }
+
+            .gallery-grid {
+                grid-template-columns: 1fr;
+                gap: 18px;
+            }
+
+            .gallery-modal-body {
+                padding: 22px 22px 26px;
+            }
+
+            .gallery-modal-preview {
+                height: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="index.html" class="logo">
+                <span class="logo-dino">🦖</span>
+                <span class="logo-text">DinoLab</span>
+            </a>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="index.html">Главная</a></li>
+                    <li><a href="game.html">Игра</a></li>
+                    <li><a href="tutorial.html">Туториал</a></li>
+                    <li><a href="mechanics.html">Механики</a></li>
+                    <li><a href="compare.html">Сравнение</a></li>
+                    <li><a href="gallery.html">Галерея</a></li>
+                    <li><a href="about.html">О проекте</a></li>
+                </ul>
+            </nav>
+            <button class="theme-toggle" id="themeToggle" aria-label="Переключить тему">🌙</button>
+        </div>
+    </header>
+
+    <main>
+        <section class="gallery-page">
+            <div class="container">
+                <div class="gallery-head">
+                    <h1 class="gallery-title">Галерея</h1>
+                    <p class="gallery-subtitle">
+                        Спрайты, эволюция проекта, обе версии игры и ключевые механики — всё в одном месте.
+                    </p>
+                </div>
+
+                <!-- ============ Фильтр ============ -->
+                <div class="gallery-filter">
+                    <button class="filter-btn active" data-filter="all">ВСЕ</button>
+                    <button class="filter-btn" data-filter="sprite">СПРАЙТЫ</button>
+                    <button class="filter-btn" data-filter="evolution">ЭВОЛЮЦИЯ</button>
+                    <button class="filter-btn" data-filter="version">ВЕРСИИ</button>
+                    <button class="filter-btn" data-filter="mechanic">МЕХАНИКИ</button>
+                </div>
+
+                <!-- ============ Сетка ============ -->
+                <div class="gallery-grid" id="galleryGrid">
+
+                    <!-- ===== СПРАЙТЫ ===== -->
+                    <article class="gallery-item" data-category="sprite" style="animation-delay: 0.05s"
+                             data-title="Динозаврик"
+                             data-desc="Спрайт главного героя. Пиксельный стиль, 50×50 пикселей. Двигается слева, прыгает через кактусы. В CSS-версии реализован как background-image div'а.">
+                        <div class="gallery-preview scene-sprite">
+                            <img src="assets/img/dino.png" alt="Динозаврик" class="sprite-dino">
+                        </div>
+                        <div class="gallery-caption">
+                            <h3>Динозаврик</h3>
+                            <p>Главный герой, прыгает через кактусы.</p>
+                            <span class="gallery-tag">СПРАЙТ</span>
+                        </div>
+                    </article>
+
+                    <article class="gallery-item" data-category="sprite" style="animation-delay: 0.1s"
+                             data-title="Кактус"
+                             data-desc="Препятствие, которое нужно перепрыгивать. Узкий и высокий спрайт, 20×40 пикселей. Двигается справа налево. При столкновении — Game Over.">
+                        <div class="gallery-preview scene-sprite">
+                            <img src="assets/img/cactus.png" alt="Кактус" class="sprite-cactus">
+                        </div>
+                        <div class="gallery-caption">
+                            <h3>Кактус</h3>
+                            <p>Препятствие на пути динозаврика.</p>
+                            <span class="gallery-tag">СПРАЙТ</span>
+                        </div>
+                    </article>
+
+                    <!-- ===== ЭВОЛЮЦИЯ ===== -->
+                    <article class="gallery-item" data-category="evolution" style="animation-delay: 0.15s"
+                             data-title="Шаг 1: Пустое поле"
+                             data-desc="Самый первый этап. Есть только HTML-каркас и стилизованное игровое поле с линией земли. Никаких объектов — просто рамка и место, куда всё будет добавлено.">
+                        <div class="gallery-preview scene-empty">
+                            <div class="scene-ground"></div>
+                            <div class="scene-label">ПУСТО</div>
+                        </div>
+                        <div class="gallery-caption">
+                            <h3>Шаг 1: Пустое поле</h3>
+                            <p>Только рамка и линия земли.</p>
+                            <span class="gallery-tag blue">ЭВОЛЮЦИЯ</span>
+                        </div>
+                    </article>
+
+                    <article class="gallery-item" data-category="evolution" style="animation-delay: 0.2s"
+                             data-title="Шаг 2: Динозаврик"
+                             data-desc="Добавили динозаврика на поле. Он стоит слева внизу. Ещё нет кактуса и логики прыжка — только спрайт, который никуда не двигается.">
+                        <div class="gallery-preview scene-game">
+                            <div class="scene-ground"></div>
+                            <div class="scene-dino"></div>
+                        </div>
+                        <div class="gallery-caption">
+                            <h3>Шаг 2: Динозаврик</h3>
+                            <p>Спрайт появился, но пока стоит.</p>
+                            <span class="gallery-tag blue">ЭВОЛЮЦИЯ</span>
+                        </div>
+                    </article>
+
+                    <article class="gallery-item" data-category="evolution" style="animation-delay: 0.25s"
+                             data-title="Шаг 3: Первый кактус"
+                             data-desc="Добавили кактус справа. Он пока не двигается — просто стоит. Следующий шаг: анимация движения справа налево.">
+                        <div class="gallery-preview scene-game">
+                            <div class="scene-ground"></div>
+                            <div class="scene-dino"></div>
+                            <div class="scene-cactus"></div>
+                        </div>
+                        <div class="gallery-caption">
+                            <h3>Шаг 3: Первый кактус</h3>
+                            <p>Кактус появился, но ещё не двигается.</p>
+                            <span class="gallery-tag blue">ЭВОЛЮЦИЯ</span>
+                        </div>
+                    </article>
+
+                    <article class="gallery-item" data-category="evolution" style="animation-delay: 0.3s"
+                             data-title="Шаг 4: Финальная игра"
+                             data-desc="Полноценная игра: динозаврик прыгает через движущиеся кактусы, есть коллизии, счёт, рекорд в localStorage и ускорение со временем. То, что сейчас работает на странице игры.">
+                        <div class="gallery-preview scene-game animate">
+                            <div class="scene-ground"></div>
+                            <div class="scene-dino"></div>
+                            <div class="scene-cactus"></div>
+                        </div>
+                        <div class="gallery-caption">
+                            <h3>Шаг 4: Финальная игра</h3>
+                            <p>Прыжки, коллизии, счёт, рекорд.</p>
+                            <span class="gallery-tag blue">ЭВОЛЮЦИЯ</span>
+                        </div>
+                    </article>
+
+                    <!-- ===== ВЕРСИИ ===== -->
+                    <article class="gallery-item" data-category="version" style="animation-delay: 0.35s"
+                             data-title="Самодельная версия"
+                             data-desc="Игра на HTML-элементах и CSS. Движение кактуса через requestAnimationFrame и transform, прыжок через CSS-анимацию, коллизии через getBoundingClientRect. Простая, понятная, идеальна для обучения.">
+                        <div class="gallery-preview scene-css">
+                            <div class="scene-badge">CSS</div>
+                            <div class="scene-ground"></div>
+                            <div class="scene-dino"></div>
+                        </div>
+                        <div class="gallery-caption">
+                            <h3>Самодельная</h3>
+                            <p>CSS-анимации + минимум JavaScript.</p>
+                            <span class="gallery-tag">CSS</span>
+                        </div>
+                    </article>
+
+                    <article class="gallery-item" data-category="version" style="animation-delay: 0.4s"
+                             data-title="Официальная версия"
+                             data-desc="Тот самый DinoGoogle из Chromium. Всё на canvas: спрайты, покадровая анимация, AABB-коллизии, звуки через Web Audio API. Промышленный подход, используемый в реальном браузере.">
+                        <div class="gallery-preview scene-canvas">
+                            <div class="scene-badge">CANVAS</div>
+                            <div class="scene-ground"></div>
+                            <div class="scene-dino"></div>
+                        </div>
+                        <div class="gallery-caption">
+                            <h3>Официальная</h3>
+                            <p>Canvas 2D, спрайты, точные коллизии.</p>
+                            <span class="gallery-tag blue">CANVAS</span>
+                        </div>
+                    </article>
+
+                    <!-- ===== МЕХАНИКИ ===== -->
+                    <article class="gallery-item" data-category="mechanic" style="animation-delay: 0.45s"
+                             data-title="Игровой цикл"
+                             data-desc="requestAnimationFrame вызывает функцию ~60 раз в секунду. Это основа любой игры в браузере. Синхронизируется с частотой обновления экрана и останавливается в фоновой вкладке.">
+                        <div class="gallery-preview scene-mech">
+                            <div class="scene-mech-icon">🔄</div>
+                        </div>
+                        <div class="gallery-caption">
+                            <h3>Игровой цикл</h3>
+                            <p>requestAnimationFrame и FPS.</p>
+                            <span class="gallery-tag danger">МЕХАНИКА</span>
+                        </div>
+                    </article>
+
+                    <article class="gallery-item" data-category="mechanic" style="animation-delay: 0.5s"
+                             data-title="Delta time"
+                             data-desc="Умножение скорости на прошедшее время. Без этого скорость игры зависит от частоты кадров: на быстром ПК быстро, на слабом — медленно. С delta time скорость одинакова везде.">
+                        <div class="gallery-preview scene-mech">
+                            <div class="scene-mech-icon">⏱</div>
+                        </div>
+                        <div class="gallery-caption">
+                            <h3>Delta time</h3>
+                            <p>Независимость скорости от FPS.</p>
+                            <span class="gallery-tag danger">МЕХАНИКА</span>
+                        </div>
+                    </article>
+
+                    <article class="gallery-item" data-category="mechanic" style="animation-delay: 0.55s"
+                             data-title="Гравитация"
+                             data-desc="Прыжок — это физика, а не анимация. У персонажа есть вертикальная скорость, которая каждый кадр меняется под действием гравитации. Когда скорость становится положительной — персонаж падает.">
+                        <div class="gallery-preview scene-mech">
+                            <div class="scene-mech-icon">⬇️</div>
+                        </div>
+                        <div class="gallery-caption">
+                            <h3>Гравитация</h3>
+                            <p>Скорость и ускорение прыжка.</p>
+                            <span class="gallery-tag danger">МЕХАНИКА</span>
+                        </div>
+                    </article>
+
+                    <article class="gallery-item" data-category="mechanic" style="animation-delay: 0.6s"
+                             data-title="AABB-коллизии"
+                             data-desc="Axis-Aligned Bounding Box — проверка пересечения двух прямоугольников через четыре сравнения координат. Работает за O(1), используется в большинстве 2D-игр, включая официальный DinoGoogle.">
+                        <div class="gallery-preview scene-mech">
+                            <div class="scene-mech-icon">⬛</div>
+                        </div>
+                        <div class="gallery-caption">
+                            <h3>AABB-коллизии</h3>
+                            <p>Пересечение прямоугольников.</p>
+                            <span class="gallery-tag danger">МЕХАНИКА</span>
+                        </div>
+                    </article>
+
+                    <article class="gallery-item" data-category="mechanic" style="animation-delay: 0.65s"
+                             data-title="Спавн объектов"
+                             data-desc="Препятствия появляются с определённым интервалом. Можно рандомизировать интервал, чтобы игра была непредсказуемой. Когда объект уезжает за левый край — он удаляется.">
+                        <div class="gallery-preview scene-mech">
+                            <div class="scene-mech-icon">📦</div>
+                        </div>
+                        <div class="gallery-caption">
+                            <h3>Спавн объектов</h3>
+                            <p>Рождение и удаление препятствий.</p>
+                            <span class="gallery-tag danger">МЕХАНИКА</span>
+                        </div>
+                    </article>
+
+                </div>
+
+                <!-- ============ CTA ============ -->
+                <div style="text-align: center; margin-top: 60px;">
+                    <a href="game.html" class="btn btn-primary">▶ Играть</a>
+                    <a href="mechanics.html" class="btn btn-secondary" style="margin-left: 12px;">Все демки →</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>© <span id="year"></span> DinoLab. Сделано на чистом HTML, CSS и JavaScript.</p>
+        </div>
+    </footer>
+
+    <!-- ============ Модалка ============ -->
+    <div class="gallery-modal" id="galleryModal">
+        <div class="gallery-modal-content">
+            <button class="gallery-modal-close" id="modalClose">✕</button>
+            <div class="gallery-modal-preview" id="modalPreview"></div>
+            <div class="gallery-modal-body">
+                <h2 id="modalTitle"></h2>
+                <p id="modalDesc"></p>
+            </div>
+        </div>
+    </div>
+
+    <script src="common.js"></script>
+    <script>
+        // ============ Фильтр категорий ============
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const galleryItems = document.querySelectorAll('.gallery-item');
+
+        filterButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const filter = btn.dataset.filter;
+
+                // Активная кнопка
+                filterButtons.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                // Показ/скрытие карточек
+                galleryItems.forEach(item => {
+                    if (filter === 'all' || item.dataset.category === filter) {
+                        item.classList.remove('hidden');
+                    } else {
+                        item.classList.add('hidden');
+                    }
+                });
+            });
+        });
+
+        // ============ Модалка ============
+        const modal = document.getElementById('galleryModal');
+        const modalClose = document.getElementById('modalClose');
+        const modalPreview = document.getElementById('modalPreview');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalDesc = document.getElementById('modalDesc');
+
+        galleryItems.forEach(item => {
+            item.addEventListener('click', () => {
+                const preview = item.querySelector('.gallery-preview');
+                const title = item.dataset.title;
+                const desc = item.dataset.desc;
+
+                // Копируем HTML превью
+                modalPreview.innerHTML = preview.innerHTML;
+                modalPreview.className = 'gallery-modal-preview ' + preview.className.replace('gallery-preview', '').trim();
+
+                modalTitle.textContent = title;
+                modalDesc.textContent = desc;
+
+                modal.classList.add('open');
+                document.body.style.overflow = 'hidden';
+            });
+        });
+
+        function closeModal() {
+            modal.classList.remove('open');
+            document.body.style.overflow = '';
+        }
+
+        modalClose.addEventListener('click', closeModal);
+
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) closeModal();
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && modal.classList.contains('open')) {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>

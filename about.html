@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>О проекте — DinoLab</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* ============ Страница «О проекте» ============ */
+        .about-page {
+            padding: 60px 0 80px;
+        }
+
+        .about-head {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .about-title {
+            font-family: 'Press Start 2P', monospace;
+            font-size: clamp(18px, 3.5vw, 30px);
+            margin-bottom: 20px;
+        }
+
+        .about-subtitle {
+            color: var(--text-muted);
+            font-size: 22px;
+            max-width: 720px;
+            margin: 0 auto;
+        }
+
+        /* ============ Секции ============ */
+        .about-section {
+            margin-bottom: 60px;
+        }
+
+        .about-section h2 {
+            font-family: 'Press Start 2P', monospace;
+            font-size: clamp(14px, 2.5vw, 20px);
+            margin-bottom: 28px;
+            text-align: center;
+        }
+
+        .about-section p {
+            color: var(--text-muted);
+            max-width: 780px;
+            margin: 0 auto 16px;
+            line-height: 1.6;
+        }
+
+        /* ============ Карточки стека ============ */
+        .stack-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .stack-card {
+            background: var(--surface);
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            padding: 24px 22px;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+
+        .stack-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--accent);
+        }
+
+        .stack-card-icon {
+            font-size: 32px;
+            line-height: 1;
+            margin-bottom: 14px;
+        }
+
+        .stack-card h3 {
+            font-family: 'Press Start 2P', monospace;
+            font-size: 12px;
+            margin-bottom: 10px;
+        }
+
+        .stack-card p {
+            color: var(--text-muted);
+            font-size: 18px;
+            margin: 0;
+        }
+
+        /* ============ Структура сайта ============ */
+        .tree {
+            background: var(--surface);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            padding: 28px 32px;
+            font-family: 'VT323', monospace;
+            font-size: 20px;
+            line-height: 1.7;
+            overflow-x: auto;
+        }
+
+        .tree code {
+            font-family: inherit;
+            color: var(--text-muted);
+            white-space: pre;
+        }
+
+        .tree .tree-dir { color: var(--accent); }
+        .tree .tree-comment { color: var(--text-muted); opacity: 0.6; }
+
+        /* ============ Сложности ============ */
+        .challenges {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .challenge-card {
+            background: var(--surface);
+            border: 2px solid var(--border);
+            border-left: 5px solid var(--danger);
+            border-radius: 10px;
+            padding: 24px 26px;
+        }
+
+        .challenge-card h3 {
+            font-family: 'Press Start 2P', monospace;
+            font-size: 12px;
+            margin-bottom: 12px;
+            color: var(--text);
+        }
+
+        .challenge-card p {
+            color: var(--text-muted);
+            margin: 0;
+            font-size: 19px;
+        }
+
+        /* ============ Итоги ============ */
+        .results {
+            background: var(--surface);
+            border: 2px solid var(--border);
+            border-left: 6px solid var(--accent);
+            border-radius: 12px;
+            padding: 28px 32px;
+        }
+
+        .results h3 {
+            font-family: 'Press Start 2P', monospace;
+            font-size: 14px;
+            margin-bottom: 18px;
+            color: var(--accent);
+        }
+
+        .results ul {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .results li {
+            padding-left: 26px;
+            position: relative;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        .results li::before {
+            content: "▸";
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+        }
+
+        /* ============ Контакты ============ */
+        .contacts {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* ============ CTA ============ */
+        .about-cta {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 40px;
+        }
+
+        @media (max-width: 600px) {
+            .about-page {
+                padding: 40px 0 60px;
+            }
+
+            .about-head {
+                margin-bottom: 40px;
+            }
+
+            .tree {
+                font-size: 17px;
+                padding: 20px 22px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="index.html" class="logo">
+                <span class="logo-dino">🦖</span>
+                <span class="logo-text">DinoLab</span>
+            </a>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="index.html">Главная</a></li>
+                    <li><a href="game.html">Игра</a></li>
+                    <li><a href="tutorial.html">Туториал</a></li>
+                    <li><a href="mechanics.html">Механики</a></li>
+                    <li><a href="compare.html">Сравнение</a></li>
+                    <li><a href="gallery.html">Галерея</a></li>
+                    <li><a href="about.html">О проекте</a></li>
+                </ul>
+            </nav>
+            <button class="theme-toggle" id="themeToggle" aria-label="Переключить тему">🌙</button>
+        </div>
+    </header>
+
+    <main>
+        <section class="about-page">
+            <div class="container">
+                <div class="about-head">
+                    <h1 class="about-title">О проекте</h1>
+                    <p class="about-subtitle">
+                        DinoLab — учебный проект: как сделать игру DinoGoogle и разобраться в двух подходах к веб-разработке игр.
+                    </p>
+                </div>
+
+                <!-- ============ Зачем ============ -->
+                <section class="about-section">
+                    <h2>Зачем этот сайт</h2>
+                    <p>
+                        DinoLab — это попытка разобрать одну и ту же задачу с двух сторон. Сначала мы делаем простую версию игры на HTML, CSS и минимуме JavaScript. Потом смотрим, как ту же игру реализовали инженеры Chromium — на canvas, со спрайтами, игровым циклом и точными коллизиями.
+                    </p>
+                    <p>
+                        Сайт задуман как <strong>учебный материал</strong>: здесь есть туториал по шагам, разбор механик, страница сравнения подходов и, конечно, обе рабочие игры.
+                    </p>
+                </section>
+
+                <!-- ============ Стек ============ -->
+                <section class="about-section">
+                    <h2>Стек технологий</h2>
+                    <div class="stack-grid">
+                        <div class="stack-card">
+                            <div class="stack-card-icon">📄</div>
+                            <h3>HTML5</h3>
+                            <p>Семантическая разметка, формы, canvas-элемент.</p>
+                        </div>
+                        <div class="stack-card">
+                            <div class="stack-card-icon">🎨</div>
+                            <h3>CSS3</h3>
+                            <p>Grid, Flexbox, переменные, анимации, тёмная/светлая тема.</p>
+                        </div>
+                        <div class="stack-card">
+                            <div class="stack-card-icon">⚡</div>
+                            <h3>JavaScript</h3>
+                            <p>DOM, события, requestAnimationFrame, localStorage, canvas API.</p>
+                        </div>
+                        <div class="stack-card">
+                            <div class="stack-card-icon">🖼️</div>
+                            <h3>Canvas 2D</h3>
+                            <p>Отрисовка спрайтов, игровой цикл, коллизии в официальной версии.</p>
+                        </div>
+                        <div class="stack-card">
+                            <div class="stack-card-icon">💾</div>
+                            <h3>localStorage</h3>
+                            <p>Сохранение рекордов и выбранной темы между сессиями.</p>
+                        </div>
+                        <div class="stack-card">
+                            <div class="stack-card-icon">🔤</div>
+                            <h3>Google Fonts</h3>
+                            <p>Press Start 2P для заголовков и VT323 для текста.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ============ Структура ============ -->
+                <section class="about-section">
+                    <h2>Как устроен сайт</h2>
+                    <div class="tree">
+<code><span class="tree-dir">📁 DinoLab/</span>
+├── <span class="tree-dir">index.html</span>          <span class="tree-comment">— главная</span>
+├── <span class="tree-dir">game.html</span>           <span class="tree-comment">— выбор версии</span>
+├── <span class="tree-dir">game-custom.html</span>    <span class="tree-comment">— самодельная игра</span>
+├── <span class="tree-dir">game-official.html</span>  <span class="tree-comment">— официальная игра</span>
+├── <span class="tree-dir">tutorial.html</span>       <span class="tree-comment">— туториал</span>
+├── <span class="tree-dir">mechanics.html</span>      <span class="tree-comment">— механики + демки</span>
+├── <span class="tree-dir">compare.html</span>        <span class="tree-comment">— сравнение подходов</span>
+├── <span class="tree-dir">gallery.html</span>        <span class="tree-comment">— галерея</span>
+├── <span class="tree-dir">about.html</span>          <span class="tree-comment">— эта страница</span>
+├── <span class="tree-dir">style.css</span>           <span class="tree-comment">— общие стили</span>
+├── <span class="tree-dir">common.js</span>           <span class="tree-comment">— тема, год, меню</span>
+├── <span class="tree-dir">game-custom.css</span>     <span class="tree-comment">— стили самодельной</span>
+├── <span class="tree-dir">game-custom.js</span>      <span class="tree-comment">— логика самодельной</span>
+└── <span class="tree-dir">📁 assets/</span>
+    └── <span class="tree-dir">📁 img/</span>
+        ├── <span class="tree-dir">dino.png</span>
+        └── <span class="tree-dir">cactus.png</span></code>
+                    </div>
+                </section>
+
+                <!-- ============ Сложности ============ -->
+                <section class="about-section">
+                    <h2>Что было сложно</h2>
+                    <div class="challenges">
+                        <div class="challenge-card">
+                            <h3>Телепорты кактуса</h3>
+                            <p>CSS-анимации при перезапуске сбрасывались некорректно — кактус «прыгал» к динозаврику. Решили, вынеся движение в JS через requestAnimationFrame и transform.</p>
+                        </div>
+                        <div class="challenge-card">
+                            <h3>Синхронизация прыжка</h3>
+                            <p>В превью на карточках динозаврик прыгал не над кактусом. Подбирали проценты в @keyframes, чтобы попасть в момент, когда кактус под ним.</p>
+                        </div>
+                        <div class="challenge-card">
+                            <h3>Код Chromium</h3>
+                            <p>Официальная версия — это 1500 строк с соцсетями, мета-тегами и проверками браузера. Пришлось вычищать и оборачивать в наш сайт.</p>
+                        </div>
+                        <div class="challenge-card">
+                            <h3>Коллизии на разных экранах</h3>
+                            <p>В самодельной версии использовали getBoundingClientRect, чтобы игра работала одинаково на любом размере окна.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ============ Итоги ============ -->
+                <section class="about-section">
+                    <h2>Что получилось</h2>
+                    <div class="results">
+                        <h3>Итог проекта</h3>
+                        <ul>
+                            <li>Многостраничный сайт из 9 страниц с общей темой и навигацией.</li>
+                            <li>Две рабочие версии игры: на CSS-анимациях и на canvas.</li>
+                            <li>Тёмная и светлая темы с сохранением выбора в localStorage.</li>
+                            <li>Анимированные превью, интерактивные демки, туториал по шагам.</li>
+                            <li>Адаптивная вёрстка — сайт работает и на телефоне.</li>
+                            <li>Чистый стек: HTML, CSS, JavaScript. Без фреймворков и библиотек.</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <!-- ============ Контакты ============ -->
+                <section class="about-section">
+                    <h2>Связаться</h2>
+                    <p style="text-align: center; margin-bottom: 24px;">
+                        Если хочешь обсудить проект, предложить идею или просто сказать «привет» — пиши.
+                    </p>
+                    <div class="contacts">
+                        <a href="mailto:gaaaa08@mail.ru" class="btn btn-secondary">✉ Написать</a>
+                    </div>
+                </section>
+
+                <!-- ============ CTA ============ -->
+                <section class="about-section">
+                    <div class="about-cta">
+                        <a href="game.html" class="btn btn-primary">▶ Играть</a>
+                        <a href="tutorial.html" class="btn btn-secondary">Читать туториал →</a>
+                    </div>
+                </section>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>© <span id="year"></span> DinoLab. Сделано на чистом HTML, CSS и JavaScript.</p>
+        </div>
+    </footer>
+
+    <script src="common.js"></script>
+</body>
+</html>
