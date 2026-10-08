@@ -312,7 +312,7 @@
                         CSS-анимации <span class="vs">vs</span> Canvas
                     </h1>
                     <p class="compare-subtitle">
-                        Одна игра — два подхода. Разбираем, чем отличается самодельная версия от официальной и когда что выбирать.
+                        Одна игра — два подхода. Разбираем, чем отличается Стартовая версия от официальной и когда что выбирать.
                     </p>
                 </div>
 
@@ -324,8 +324,8 @@
                             <thead>
                                 <tr>
                                     <th>Критерий</th>
-                                    <th class="col-custom">Самодельная (CSS)</th>
-                                    <th class="col-official">Официальная (Canvas)</th>
+                                    <th class="col-custom">Стартовая (CSS)</th>
+                                    <th class="col-official">Продвинутая (Canvas)</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -384,7 +384,7 @@
                     <h2>Плюсы и минусы</h2>
                     <div class="pros-cons">
                         <div class="pros-cons-card custom">
-                            <h3>Самодельная</h3>
+                            <h3>Стартовая</h3>
                             <ul class="pros-cons-list">
                                 <li class="pro">Простой и понятный код</li>
                                 <li class="pro">Легко читать и редактировать</li>
@@ -396,7 +396,7 @@
                             </ul>
                         </div>
                         <div class="pros-cons-card official">
-                            <h3>Официальная</h3>
+                            <h3>Продвинутая</h3>
                             <ul class="pros-cons-list">
                                 <li class="pro">Полный контроль над графикой</li>
                                 <li class="pro">Точные коллизии</li>
@@ -417,7 +417,7 @@
                     <!-- Прыжок -->
                     <div class="code-compare">
                         <div class="code-block custom">
-                            <div class="code-block-head">САМОДЕЛЬНАЯ: ПРЫЖОК</div>
+                            <div class="code-block-head">Стартовая: ПРЫЖОК</div>
                             <pre><code><span class="cmt">// Добавляем класс .jump на 600 мс</span>
 <span class="kw">function</span> jump() {
     dino.classList.add(<span class="str">'jump'</span>);
@@ -434,7 +434,7 @@
 }</code></pre>
                         </div>
                         <div class="code-block official">
-                            <div class="code-block-head">ОФИЦИАЛЬНАЯ: ПРЫЖОК</div>
+                            <div class="code-block-head">Продвинутая: ПРЫЖОК</div>
                             <pre><code><span class="cmt">// Старт прыжка задаёт скорость</span>
 startJump: <span class="kw">function</span>() {
     <span class="kw">if</span> (!this.jumping) {
@@ -456,7 +456,7 @@ updateJump: <span class="kw">function</span>(deltaTime) {
                     <!-- Движение препятствия -->
                     <div class="code-compare">
                         <div class="code-block custom">
-                            <div class="code-block-head">САМОДЕЛЬНАЯ: ДВИЖЕНИЕ</div>
+                            <div class="code-block-head">Стартовая: ДВИЖЕНИЕ</div>
                             <pre><code><span class="cmt">// В игровом цикле двигаем кактус</span>
 <span class="kw">function</span> loop(timestamp) {
     <span class="kw">const</span> deltaSec = deltaMs / <span class="num">1000</span>;
@@ -467,7 +467,7 @@ updateJump: <span class="kw">function</span>(deltaTime) {
 }</code></pre>
                         </div>
                         <div class="code-block official">
-                            <div class="code-block-head">ОФИЦИАЛЬНАЯ: ДВИЖЕНИЕ</div>
+                            <div class="code-block-head">Продвинутая: ДВИЖЕНИЕ</div>
                             <pre><code><span class="cmt">// Препятствие само себя двигает</span>
 update: <span class="kw">function</span>(deltaTime, speed) {
     <span class="kw">if</span> (!this.remove) {
@@ -483,7 +483,7 @@ update: <span class="kw">function</span>(deltaTime, speed) {
                     <!-- Коллизия -->
                     <div class="code-compare">
                         <div class="code-block custom">
-                            <div class="code-block-head">САМОДЕЛЬНАЯ: КОЛЛИЗИЯ</div>
+                            <div class="code-block-head">Стартовая: КОЛЛИЗИЯ</div>
                             <pre><code><span class="cmt">// Через реальные размеры на экране</span>
 <span class="kw">const</span> dinoRect =
     dino.getBoundingClientRect();
@@ -496,7 +496,7 @@ update: <span class="kw">function</span>(deltaTime, speed) {
     dinoRect.bottom > cactusRect.top;</code></pre>
                         </div>
                         <div class="code-block official">
-                            <div class="code-block-head">ОФИЦИАЛЬНАЯ: КОЛЛИЗИЯ</div>
+                            <div class="code-block-head">Продвинутая: КОЛЛИЗИЯ</div>
                             <pre><code><span class="cmt">// AABB по координатам спрайтов</span>
 <span class="kw">function</span> boxCompare(tRexBox, obstacleBox) {
     <span class="kw">return</span> (
@@ -533,8 +533,8 @@ update: <span class="kw">function</span>(deltaTime, speed) {
                 <!-- ============ CTA ============ -->
                 <section class="compare-section">
                     <div class="compare-cta">
-                        <a href="game-custom.html" class="btn btn-primary">▶ Самодельная версия</a>
-                        <a href="game-official.html" class="btn btn-primary">▶ Официальная версия</a>
+                        <a href="game-custom.html" class="btn btn-primary">▶ Стартовая версия</a>
+                        <a href="game-official.html" class="btn btn-primary">▶ Продвинутая версия</a>
                         <a href="tutorial.html" class="btn btn-secondary">Читать туториал →</a>
                     </div>
                 </section>
